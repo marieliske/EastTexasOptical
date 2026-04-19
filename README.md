@@ -1,6 +1,6 @@
 # East Texas Optical
 
-This is a website I built for East Texas Optical, a local eye care business.
+This is a website I built for East Texas Optical, my family's eye care business.
 
 The goal was to make a clean, easy-to-use site where customers can:
 - Learn about the business and services
