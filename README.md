@@ -1,8 +1,44 @@
 # East Texas Optical
 
-React + Vite website with:
-- Google Reviews integration via secure backend proxy
-- Google Maps integration on the Contact page
+This is a website I built for East Texas Optical, a local eye care business.
+
+The goal was to make a clean, easy-to-use site where customers can:
+- Learn about the business and services
+- Find contact/location info
+- See Google reviews
+- Use a live Google Map on the Contact page
+
+## Tech stack
+
+Frontend:
+- React 18
+- React Router
+- Vite
+- CSS
+
+Backend/API:
+- Node.js
+- Express
+- Helmet
+- CORS
+- express-rate-limit
+
+Integrations:
+- Google Places API (reviews)
+- Google Maps JavaScript API
+
+Deployment/ops:
+- Ubuntu VPS (Hostinger)
+- Nginx (static hosting + reverse proxy)
+- PM2 (process management)
+- Let's Encrypt (TLS)
+
+## Architecture summary
+
+- The frontend is built with Vite into static files in `dist`.
+- The backend has two main endpoints: `/api/health` and `/api/google-reviews`.
+- Nginx serves the frontend and forwards `/api/*` requests to the Node API.
+- Google Places requests are done on the server so `GOOGLE_API_KEY` is not exposed in the browser.
 
 ## Install
 
