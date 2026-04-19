@@ -1,108 +1,66 @@
 # East Texas Optical
 
-This is a website I built for East Texas Optical, my family's eye care business.
+Production website built for a real optometry business.
 
-The goal was to make a clean, easy-to-use site where customers can:
-- Learn about the business and services
-- Find contact/location info
-- See Google reviews
-- Use a live Google Map on the Contact page
+This project combines a modern React frontend with a lightweight Express API to deliver business information, location details, and live customer reviews in a secure and reliable way.
+
+## Project goals
+
+- Build a fast, mobile-friendly website for a local business
+- Integrate Google Maps and Google Reviews
+- Protect sensitive API credentials by keeping review requests server-side
+- Deploy and operate the app in a production VPS environment
+
+## Key features
+
+- Multi-page responsive frontend with client-side routing
+- Services and contact experience tailored for local customers
+- Live Google Map embedded on the Contact page
+- Google Reviews fetched through a backend proxy endpoint
+- Health endpoint for monitoring and deployment verification
 
 ## Tech stack
 
-Frontend:
-- React 18
+Frontend
+- React
 - React Router
 - Vite
 - CSS
 
-Backend/API:
+Backend
 - Node.js
 - Express
 - Helmet
 - CORS
 - express-rate-limit
 
-Integrations:
-- Google Places API (reviews)
+Integrations
+- Google Places API
 - Google Maps JavaScript API
 
-Deployment/ops:
-- Ubuntu VPS (Hostinger)
-- Nginx (static hosting + reverse proxy)
-- PM2 (process management)
-- Let's Encrypt (TLS)
+Infrastructure
+- Ubuntu VPS
+- Nginx
+- PM2
+- Let's Encrypt TLS
 
-## Architecture summary
+## Architecture
 
-- The frontend is built with Vite into static files in `dist`.
-- The backend has two main endpoints: `/api/health` and `/api/google-reviews`.
-- Nginx serves the frontend and forwards `/api/*` requests to the Node API.
-- Google Places requests are done on the server so `GOOGLE_API_KEY` is not exposed in the browser.
+- Vite builds the frontend into static assets served by Nginx
+- Express provides API endpoints for health checks and Google reviews
+- Nginx reverse-proxies API traffic to the Node process
+- Reviews are requested server-side so private API keys are not exposed to the browser
 
-## Install
+## Security and reliability highlights
 
-```bash
-npm install
-```
+- Security headers with Helmet
+- CORS origin allowlisting
+- Rate limiting on reviews endpoint
+- Server-side caching for external API responses
+- Process supervision and restart management with PM2
 
-## Environment setup
+## Outcomes
 
-1. Copy `.env.example` to `.env.local` for frontend development values.
-2. Add backend values in your server environment (or `.env` when running API locally).
-
-Required values:
-
-Frontend:
-- `VITE_REVIEWS_API_URL` (example: `http://localhost:3001/api/google-reviews`)
-- `VITE_GOOGLE_MAPS_API_KEY`
-- `VITE_GOOGLE_MAPS_CENTER_LAT`
-- `VITE_GOOGLE_MAPS_CENTER_LNG`
-- `VITE_GOOGLE_REVIEW_URL` (optional write-review button URL)
-
-Backend:
-- `GOOGLE_API_KEY` (server-only)
-- `GOOGLE_PLACE_ID`
-- `ALLOWED_ORIGINS`
-
-Optional backend tuning:
-- `REVIEWS_CACHE_TTL_MS`
-- `REVIEWS_CACHE_MAX_ENTRIES`
-- `REVIEWS_RATE_LIMIT_WINDOW_MS`
-- `REVIEWS_RATE_LIMIT_MAX`
-- `ALLOW_PLACE_ID_OVERRIDE` (`false` by default; keep disabled for a single-business site)
-
-Security note:
-- Set `ALLOWED_ORIGINS` explicitly in production (for example: `https://easttexasoptical.com,https://www.easttexasoptical.com`).
-- By default, the API serves the configured `GOOGLE_PLACE_ID` and ignores query-string place overrides.
-
-## Run locally
-
-Terminal 1 (frontend):
-
-```bash
-npm run dev
-```
-
-Terminal 2 (reviews API):
-
-```bash
-npm run api
-```
-
-## Build frontend
-
-```bash
-npm run build
-npm run preview
-```
-
-## Production notes (Hostinger VPS)
-
-1. Build and serve `dist` with Nginx as static files.
-2. Run `server/index.js` with PM2 as your API process.
-3. Reverse proxy `/api/*` to the Node API port (for example `3001`).
-4. Restrict Google API keys:
-	- Server key: Places API only + VPS IP restriction
-	- Browser key: Maps JavaScript API only + domain referrer restriction
-5. Do not expose `GOOGLE_API_KEY` in any `VITE_` variable.
+- Delivered a production-ready website used by real customers
+- Implemented secure third-party API integration with protected credentials
+- Established a repeatable deployment workflow for ongoing updates
