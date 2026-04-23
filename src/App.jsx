@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NavLink, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -10,8 +10,29 @@ import instagramIcon from '../assets/Instagram Logo.png'
 import facebookIcon from '../assets/facebook.png'
 import yelpIcon from '../assets/yelp.png'
 
+const SITE_NOTICE = {
+  enabled: true,
+  id: 'closure-2026-05-18-2026-05-30',
+  title: 'Closure Dates',
+  message: 'We will be closed Monday, May 18 and Saturday, May 30, 2026 for family events. We apologize for any inconvenience. Thank you for your understanding. - ETO',
+}
+
+const SITE_NOTICE_STORAGE_KEY = 'eto.siteNotice.dismissed'
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showSiteNotice, setShowSiteNotice] = useState(false)
+
+  useEffect(() => {
+    if (!SITE_NOTICE.enabled) {
+      return
+    }
+
+    const dismissedNoticeId = window.localStorage.getItem(SITE_NOTICE_STORAGE_KEY)
+    if (dismissedNoticeId !== SITE_NOTICE.id) {
+      setShowSiteNotice(true)
+    }
+  }, [])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev)
@@ -21,8 +42,25 @@ function App() {
     setIsMobileMenuOpen(false)
   }
 
+  const closeSiteNotice = () => {
+    setShowSiteNotice(false)
+    window.localStorage.setItem(SITE_NOTICE_STORAGE_KEY, SITE_NOTICE.id)
+  }
+
   return (
     <div className="site-shell">
+      {showSiteNotice && (
+        <div className="site-notice-backdrop" role="presentation">
+          <div className="site-notice-modal" role="dialog" aria-modal="true" aria-labelledby="site-notice-title">
+            <h2 id="site-notice-title">{SITE_NOTICE.title}</h2>
+            <p>{SITE_NOTICE.message}</p>
+            <button type="button" className="site-notice-close" onClick={closeSiteNotice}>
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+
       <header className="topbar">
         <NavLink className="brand" to="/" end onClick={closeMobileMenu}>
           <img className="brand-logo" src={etoLogo} alt="East Texas Optical" />
@@ -100,6 +138,8 @@ function App() {
             <img src={yelpIcon} alt="Yelp" />
           </a>
         </nav>
+
+        <p className="footer-credit">Designed by Marie Liske</p>
       </footer>
     </div>
   )
