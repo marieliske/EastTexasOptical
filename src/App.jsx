@@ -14,14 +14,27 @@ const SITE_NOTICE = {
   enabled: true,
   id: 'closure-2026-05-18-2026-05-30',
   title: 'Closure Dates',
-  message: 'We will be closed Monday, May 18 and Saturday, May 30, 2026 for family events. We apologize for any inconvenience. Thank you for your understanding. - ETO',
+  message: (
+    <>We will be closed <strong>Monday, May 18</strong> and <strong>Saturday, May 30, 2026</strong> for family events. We apologize for any inconvenience. Thank you for your understanding. - ETO</>
+  ),
 }
 
 const SITE_NOTICE_STORAGE_KEY = 'eto.siteNotice.dismissed'
 
+// Popup modal — shown once per session (not stored in localStorage)
+const HOURS_POPUP = {
+  enabled: true,
+  title: 'Optometrist In Office',
+  message: (
+    <>We will be open <strong>Saturday May 9</strong> from <strong>8–5pm</strong> and <strong>Saturday May 16</strong> from <strong>9–3pm</strong>. Call to schedule an eye exam!</>
+  ),
+  phone: '(903)-878-2452',
+}
+
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showSiteNotice, setShowSiteNotice] = useState(false)
+  const [showHoursPopup, setShowHoursPopup] = useState(HOURS_POPUP.enabled)
 
   useEffect(() => {
     if (!SITE_NOTICE.enabled) {
@@ -49,19 +62,22 @@ function App() {
 
   return (
     <div className="site-shell">
-      {showSiteNotice && (
-        <div className="site-notice-backdrop" role="presentation">
-          <div className="site-notice-modal" role="dialog" aria-modal="true" aria-labelledby="site-notice-title">
-            <h2 id="site-notice-title">{SITE_NOTICE.title}</h2>
-            <p>{SITE_NOTICE.message}</p>
-            <button type="button" className="site-notice-close" onClick={closeSiteNotice}>
+      {showHoursPopup && (
+        <div className="hours-popup-backdrop" role="presentation" onClick={() => setShowHoursPopup(false)}>
+          <div className="hours-popup-modal" role="dialog" aria-modal="true" aria-labelledby="hours-popup-title" onClick={e => e.stopPropagation()}>
+            <h2 id="hours-popup-title">{HOURS_POPUP.title}</h2>
+            <p>{HOURS_POPUP.message}</p>
+            {HOURS_POPUP.phone && (
+              <a className="hours-popup-phone phone-link" href={`tel:+19038782451`}>{HOURS_POPUP.phone}</a>
+            )}
+            <button type="button" className="hours-popup-close" onClick={() => setShowHoursPopup(false)}>
               Got it
             </button>
           </div>
         </div>
       )}
-
-      <header className="topbar">
+      <div className="sticky-header">
+        <header className="topbar">
         <NavLink className="brand" to="/" end onClick={closeMobileMenu}>
           <img className="brand-logo" src={etoLogo} alt="East Texas Optical" />
         </NavLink>
@@ -100,6 +116,16 @@ function App() {
           </NavLink>
         </nav>
       </header>
+
+        {showSiteNotice && (
+          <div className="announcement-banner" role="region" aria-label="Site announcement">
+            <p><strong>{SITE_NOTICE.title}:</strong> {SITE_NOTICE.message}</p>
+            <button type="button" className="announcement-dismiss" onClick={closeSiteNotice} aria-label="Dismiss announcement">
+              &times;
+            </button>
+          </div>
+        )}
+      </div>
 
       <main className="content-wrap">
         <Routes>

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import homeHeroImg from '../../assets/Home Hero IMG.png'
 import homeReviewImg from '../../assets/Home IMG 1.png'
 import iconBolt from '../../assets/bolt_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24 1.png'
@@ -23,38 +23,55 @@ const dummyReviews = [
   {
     author: 'John Doe',
     rating: 5,
-    title: 'Review Title',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+    photo: null,
+    timeAgo: null,
   },
   {
     author: 'Jane Doe',
     rating: 5,
-    title: 'Review Title',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis aute irure dolor in reprehenderit.'
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis aute irure dolor in reprehenderit.',
+    photo: null,
+    timeAgo: null,
   },
   {
     author: 'John Doe',
     rating: 5,
-    title: 'Review Title',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.'
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit.',
+    photo: null,
+    timeAgo: null,
   },
   {
     author: 'Jane Doe',
     rating: 5,
-    title: 'Review Title',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+    photo: null,
+    timeAgo: null,
+  },
+  {
+    author: 'John Doe',
+    rating: 5,
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Excepteur sint occaecat cupidatat non proident.',
+    photo: null,
+    timeAgo: null,
   }
 ]
+
+const GoogleIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-label="Google review" role="img">
+    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+  </svg>
+)
 
 const mapGoogleReviewToCard = (review) => ({
   author: (review.author_name ? review.author_name.replace(/^.*?-\s*/, '') : 'Google User'),
   rating: Number(review.rating) || 5,
-  title: 'Google Review',
-  content: review.text ?? ''
+  content: review.text ?? '',
+  photo: review.profile_photo_url || null,
+  timeAgo: review.relative_time_description || null,
 })
 
 function Home() {
@@ -62,6 +79,7 @@ function Home() {
       document.title = 'East Texas Optical';
     }, []);
   const [reviews, setReviews] = useState(dummyReviews)
+  const [placeInfo, setPlaceInfo] = useState({ rating: null, totalRatings: null })
 
   useEffect(() => {
     let isMounted = true
@@ -87,12 +105,22 @@ function Home() {
 
         const data = await response.json()
 
-        if (isMounted && Array.isArray(data.reviews) && data.reviews.length > 0) {
-          setReviews(
-            data.reviews
-              .filter(r => typeof r.text === 'string' && r.text.trim().length > 0)
+        if (isMounted) {
+          if (data.place) {
+            setPlaceInfo({
+              rating: data.place.rating ?? null,
+              totalRatings: data.place.user_ratings_total ?? null,
+            })
+          }
+          if (Array.isArray(data.reviews) && data.reviews.length > 0) {
+            const fiveStarReviews = data.reviews
+              .filter(r => typeof r.text === 'string' && r.text.trim().length > 0 && Number(r.rating) === 5)
+              .slice(0, 9)
               .map(mapGoogleReviewToCard)
-          )
+            if (fiveStarReviews.length > 0) {
+              setReviews(fiveStarReviews)
+            }
+          }
         }
       } catch {
         // Keep dummy reviews as a user-safe fallback on API failures.
@@ -105,8 +133,6 @@ function Home() {
       isMounted = false
     }
   }, [])
-
-  const reviewCarouselItems = useMemo(() => reviews.concat(reviews), [reviews])
 
   const writeReviewUrl =
     import.meta.env.VITE_GOOGLE_REVIEW_URL ||
@@ -198,24 +224,49 @@ function Home() {
         </div>
 
         <div className="reviews-carousel-panel">
-          <a className="reviews-write-btn" href={writeReviewUrl} target="_blank" rel="noreferrer">
-            WRITE A REVIEW
-          </a>
-
-          <div className="reviews-carousel" aria-live="polite">
-            <div className="reviews-track">
-              {reviewCarouselItems.map((review, index) => (
-                <article className="review-card" key={`${review.author}-${index}`}>
-                  <h3>{review.author}</h3>
-                  <p className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
-                    {'★'.repeat(Math.round(Math.min(Math.max(review.rating, 0), 5)))}
-                    {'☆'.repeat(5 - Math.round(Math.min(Math.max(review.rating, 0), 5)))}
-                  </p>
-                  <h4>{review.title}</h4>
-                  <p>{review.content}</p>
-                </article>
-              ))}
+          <div className="reviews-panel-header">
+            <div className="reviews-overall-rating">
+              {placeInfo.rating != null && (
+                <>
+                  <span className="reviews-overall-score">{placeInfo.rating.toFixed(1)}</span>
+                  <span className="reviews-overall-stars" aria-label={`${placeInfo.rating} out of 5 stars`}>
+                    {'★'.repeat(Math.round(placeInfo.rating))}
+                    {'☆'.repeat(5 - Math.round(placeInfo.rating))}
+                  </span>
+                  {placeInfo.totalRatings != null && (
+                    <span className="reviews-overall-count">Over {placeInfo.totalRatings.toLocaleString()} Reviews</span>
+                  )}
+                </>
+              )}
             </div>
+            <a className="reviews-write-btn" href={writeReviewUrl} target="_blank" rel="noreferrer">
+              Write a Review
+            </a>
+          </div>
+
+          <div className="reviews-grid">
+            {reviews.map((review, index) => (
+              <article className="review-card" key={`${review.author}-${index}`}>
+                <div className="review-card-header">
+                  <div className="review-avatar-wrap">
+                    {review.photo
+                      ? <img className="review-avatar" src={review.photo} alt={review.author} referrerPolicy="no-referrer" />
+                      : <div className="review-avatar review-avatar-initial" aria-hidden="true">{review.author.charAt(0).toUpperCase()}</div>
+                    }
+                    <div className="review-meta">
+                      <h3>{review.author}</h3>
+                      {review.timeAgo && <span className="review-time">{review.timeAgo}</span>}
+                    </div>
+                  </div>
+                  <GoogleIcon />
+                </div>
+                <p className="review-stars" aria-label={`${review.rating} out of 5 stars`}>
+                  {'★'.repeat(Math.round(Math.min(Math.max(review.rating, 0), 5)))}
+                  {'☆'.repeat(5 - Math.round(Math.min(Math.max(review.rating, 0), 5)))}
+                </p>
+                <p>{review.content}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>

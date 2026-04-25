@@ -93,7 +93,7 @@ function Contact() {
             <strong>Saturday:</strong> Hours vary, please give us a call to find out the most accurate hours.
           </p>
           <p>
-            <strong>Doctor Saturday:</strong> 9am-5pm
+            <strong>Doctor Saturday:</strong> Hours vary call for details.
             <br />
             <strong>No Doctor Saturday:</strong> 9am - 12pm
           </p>
