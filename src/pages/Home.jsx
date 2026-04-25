@@ -142,7 +142,11 @@ function Home() {
     <>
       <section className="home-hero" aria-label="East Texas Optical hero banner">
         <div className="hero-left">
-          <h1>East Texas Optical</h1>
+          <h1>
+            East Texas
+            <br />
+            Optical
+          </h1>
           <p>Proudly serving East Texas since 1977</p>
           <p>
             <a className="phone-link hero-phone-link" href="tel:+19038782451">
