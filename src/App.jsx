@@ -41,7 +41,7 @@ function App() {
       return
     }
 
-    const dismissedNoticeId = window.localStorage.getItem(SITE_NOTICE_STORAGE_KEY)
+    const dismissedNoticeId = window.sessionStorage.getItem(SITE_NOTICE_STORAGE_KEY)
     if (dismissedNoticeId !== SITE_NOTICE.id) {
       setShowSiteNotice(true)
     }
@@ -57,7 +57,7 @@ function App() {
 
   const closeSiteNotice = () => {
     setShowSiteNotice(false)
-    window.localStorage.setItem(SITE_NOTICE_STORAGE_KEY, SITE_NOTICE.id)
+    window.sessionStorage.setItem(SITE_NOTICE_STORAGE_KEY, SITE_NOTICE.id)
   }
 
   return (
