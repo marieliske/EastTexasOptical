@@ -129,11 +129,6 @@ function Contact() {
             <strong>Saturday:</strong> Hours vary, please give us a call to find out the most accurate hours.
           </p>
           <p>
-            <strong>Doctor Saturday:</strong> 9am-5pm
-            <br />
-            <strong>No Doctor Saturday:</strong> 9am - 12pm
-          </p>
-          <p>
             <strong>Sunday:</strong> Closed
           </p>
 
