@@ -772,7 +772,6 @@ a {
   margin-top: 0.55rem;
   font-style: normal;
   line-height: 1.35;
-  font-size: clamp(0.1rem, 1.8vw, 1.12rem);
 }
 
 .contact-address-link {
