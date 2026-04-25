@@ -140,11 +140,19 @@ function App() {
       <footer className="footer" aria-label="East Texas Optical footer">
         <img className="footer-logo" src={etoLogo} alt="East Texas Optical logo" />
         <p className="footer-address">
-          East Texas Optical
-          <br />
-          2476 West State Hwy 154
-          <br />
-          Quitman, TX 75783
+          <a
+            className="address-link"
+            href="https://www.google.com/maps/search/?api=1&query=2476+West+State+Hwy+154+Quitman+TX+75783"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open East Texas Optical address in Google Maps"
+          >
+            East Texas Optical
+            <br />
+            2476 West State Hwy 154
+            <br />
+            Quitman, TX 75783
+          </a>
         </p>
         <p className="footer-phone">
           <a className="phone-link footer-phone-link" href="tel:+19038782451">

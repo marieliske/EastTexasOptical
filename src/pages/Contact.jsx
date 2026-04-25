@@ -148,6 +148,21 @@ function Contact() {
 
       <section className="contact-visit" aria-label="Visit us">
         <h2>Come Visit Us!</h2>
+        <div className="contact-visit-address" aria-label="Office address">
+          <address>
+            <a
+              className="address-link contact-address-link"
+              href="https://www.google.com/maps/search/?api=1&query=2476+West+State+Hwy+154+Quitman+TX+75783"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open East Texas Optical address in Google Maps"
+            >
+              2476 West State Hwy 154
+              <br />
+              Quitman, TX 75783
+            </a>
+          </address>
+        </div>
       </section>
 
       <section className="contact-map" aria-label="Map location">
