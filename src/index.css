@@ -1479,6 +1479,7 @@ a {
   .menu-toggle {
     display: inline-flex;
     justify-self: end;
+    border: none;
   }
 
   .topbar > .nav,
