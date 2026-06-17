@@ -11,7 +11,7 @@ import facebookIcon from '../assets/facebook.png'
 import yelpIcon from '../assets/yelp.png'
 
 const SITE_NOTICE = {
-  enabled: true,
+  enabled: false,
   id: 'closure-2026-05-18-2026-05-30',
   title: 'Closure Dates',
   message: (
@@ -24,11 +24,11 @@ const SITE_NOTICE_STORAGE_KEY = 'eto.siteNotice.dismissed'
 // Popup modal — shown once per session (not stored in localStorage)
 const HOURS_POPUP = {
   enabled: true,
-  title: 'Optometrist In Office',
+  title: 'Phone Outage',
   message: (
-    <>We will be open <strong>Saturday May 9</strong> from <strong>8–5pm</strong> and <strong>Saturday May 16</strong> from <strong>9–3pm</strong>. Call to schedule an eye exam!</>
+    <>Our phone lines experienced a temporary outage. We apologize for any inconvenience. They are now back online, please feel free to contact us for assistance.</>
   ),
-  phone: '(903)-878-2452',
+  phone: '(903)-878-2451',
 }
 
 function App() {
@@ -53,6 +53,7 @@ function App() {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
   const closeSiteNotice = () => {
