@@ -9,6 +9,7 @@ import etoLogo from '../assets/ETO Logo 1.png'
 import instagramIcon from '../assets/Instagram Logo.png'
 import facebookIcon from '../assets/facebook.png'
 import yelpIcon from '../assets/yelp.png'
+import superSaleImg from '../assets/SUPER SALE.jpg'
 
 const SITE_NOTICE = {
   enabled: false,
@@ -24,10 +25,6 @@ const SITE_NOTICE_STORAGE_KEY = 'eto.siteNotice.dismissed'
 // Popup modal — shown once per session (not stored in localStorage)
 const HOURS_POPUP = {
   enabled: true,
-  title: 'Phone Outage',
-  message: (
-    <>Our phone lines experienced a temporary outage. We apologize for any inconvenience. They are now back online, please feel free to contact us for assistance.</>
-  ),
   phone: '(903)-878-2451',
 }
 
@@ -65,11 +62,10 @@ function App() {
     <div className="site-shell">
       {showHoursPopup && (
         <div className="hours-popup-backdrop" role="presentation" onClick={() => setShowHoursPopup(false)}>
-          <div className="hours-popup-modal" role="dialog" aria-modal="true" aria-labelledby="hours-popup-title" onClick={e => e.stopPropagation()}>
-            <h2 id="hours-popup-title">{HOURS_POPUP.title}</h2>
-            <p>{HOURS_POPUP.message}</p>
+          <div className="hours-popup-modal" role="dialog" aria-modal="true" aria-label="Super sale" onClick={e => e.stopPropagation()}>
+            <img className="hours-popup-image" src={superSaleImg} alt="Super sale through the end of the year: free select frames or 50% off select frames with purchase of lenses. Call for more details." />
             {HOURS_POPUP.phone && (
-              <a className="hours-popup-phone phone-link" href={`tel:+19038782451`}>{HOURS_POPUP.phone}</a>
+              <a className="hours-popup-phone phone-link" href="tel:+19038782451">{HOURS_POPUP.phone}</a>
             )}
             <button type="button" className="hours-popup-close" onClick={() => setShowHoursPopup(false)}>
               Got it
