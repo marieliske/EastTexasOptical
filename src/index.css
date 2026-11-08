@@ -126,6 +126,17 @@ a {
   object-fit: contain;
 }
 
+@media (min-width: 768px) {
+  .hours-popup-modal {
+    width: min(760px, 100%);
+  }
+
+  .hours-popup-image {
+    width: 100%;
+    max-height: 80dvh;
+  }
+}
+
 .hours-popup-modal h2 {
   margin: 0;
   color: var(--deep-blue);
