@@ -12,7 +12,7 @@ const defaultCenter = {
 
 const mapContainerStyle = {
   width: '100%',
-  minHeight: '540px'
+  minHeight: 'var(--contact-map-height, 540px)'
 }
 
 const LIBRARIES = ['marker']

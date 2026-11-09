@@ -140,7 +140,7 @@ function Home() {
 
   return (
     <>
-      <section className="home-hero" aria-label="East Texas Optical hero banner">
+      <section className="home-hero home-hero--home" aria-label="East Texas Optical hero banner">
         <div className="hero-left">
           <h1>
             East Texas

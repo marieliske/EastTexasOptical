@@ -385,6 +385,37 @@ a {
   overflow-x: clip;
 }
 
+@media (min-width: 751px) {
+  .content-wrap {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1480px) minmax(0, 1fr);
+  }
+
+  .content-wrap > * {
+    grid-column: 2;
+    min-width: 0;
+  }
+
+  .content-wrap > :is(.home-hero, .about-hero, .contact-hero, .services-hero, .home-reviews, .contact-info, .contact-map) {
+    grid-column: 1 / -1;
+  }
+
+  .contact-map {
+    --contact-map-height: 640px;
+  }
+}
+
+@media (min-width: 1481px) {
+  .contact-info > .contact-info-left {
+    padding-left: calc(2.6rem + max(0px, 100% - 740px));
+  }
+
+  .contact-info > .contact-info-right {
+    padding-right: calc(2.6rem + max(0px, 100% - 740px));
+  }
+}
+
 .page {
   margin: 0.6rem;
   padding: 1.2rem;
@@ -588,6 +619,49 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+@media (min-width: 751px) {
+  .content-wrap > :is(.home-hero, .about-hero, .contact-hero) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 0;
+    height: auto;
+    max-height: none;
+  }
+
+  .content-wrap > :is(.home-hero, .about-hero, .contact-hero) > :is(.hero-left, .about-hero-left, .contact-hero-left) {
+    padding-left: clamp(2rem, 12vw, 18rem);
+    padding-right: clamp(1.2rem, 3vw, 3rem);
+  }
+
+  .content-wrap :is(.hero-right, .about-hero-right, .contact-hero-right) {
+    height: auto;
+    min-height: 0;
+    border-radius: 0;
+  }
+
+  .hero-right .hero-image,
+  .about-hero-right .about-hero-image,
+  .contact-hero-right .contact-hero-image {
+    position: static;
+    height: auto;
+  }
+
+  .home-hero .hero-left {
+    padding-block: clamp(1rem, 3vw, 3rem);
+  }
+
+  .home-hero .hero-left h1 {
+    margin-bottom: 1rem;
+  }
+
+  .home-hero .hero-cta {
+    margin-top: 1.25rem;
+  }
+
+  .content-wrap > .services-hero {
+    min-height: 560px;
+  }
 }
 
 .about-hero {
@@ -807,13 +881,13 @@ a {
 
 .contact-map-placeholder {
   width: 100%;
-  min-height: 540px;
+  min-height: var(--contact-map-height, 540px);
   background: #d8d8d8;
   overflow: hidden;
 }
 
 .contact-map-status {
-  min-height: 540px;
+  min-height: var(--contact-map-height, 540px);
   margin: 0;
   display: grid;
   place-items: center;
@@ -1107,9 +1181,7 @@ a {
 
 .reviews-carousel-panel {
   margin-top: 1.8rem;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100%;
   padding: 3rem 0 3rem;
   background: var(--deep-blue);
 }
@@ -2033,6 +2105,28 @@ a {
     padding: 0.48rem 1.7rem;
     font-size: 1.02rem;
     border-radius: 1.1rem;
+  }
+
+  :is(.home-hero--home, .home-hero--eye-exams) {
+    height: auto;
+    min-height: 320px;
+    max-height: none;
+  }
+
+  :is(.home-hero--home, .home-hero--eye-exams) .hero-left {
+    align-items: center;
+    text-align: center;
+  }
+
+  :is(.home-hero--home, .home-hero--eye-exams) .hero-left :is(h1, p, .hero-cta) {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :is(.home-hero--home, .home-hero--eye-exams) .hero-left p:first-of-type {
+    text-align: center;
+    white-space: normal;
   }
 }
 

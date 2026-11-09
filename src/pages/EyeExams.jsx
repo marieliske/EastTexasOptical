@@ -9,7 +9,7 @@ function EyeExams() {
   }, []);
   return (
     <>
-      <section className="home-hero" aria-label="Eye Exams hero banner" style={{background: 'var(--deep-blue)'}}>
+      <section className="home-hero home-hero--eye-exams" aria-label="Eye Exams hero banner" style={{background: 'var(--deep-blue)'}}>
         <div className="hero-left">
           <h1>Eye Exams</h1>
           <p>Professional care for your vision.</p>
